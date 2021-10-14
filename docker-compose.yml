@@ -1,5 +1,5 @@
 squid:
-  image: allir/squid:4.13
+  image: allir/squid:latest
   ports:
     - "3128:3128"
   volumes:

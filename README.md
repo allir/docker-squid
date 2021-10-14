@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# allir/squid:4.13 ![Logo](images/squid_logo.png)
+# ![Logo](images/squid_logo.png)  Squid Proxy Docker Image
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -28,19 +28,16 @@ If you find this image useful here's how you can help:
 
 - Send a pull request with your awesome features and bug fixes
 - Help users resolve their [issues](../../issues?q=is%3Aopen+is%3Aissue).
-- Support the development of this image with a [donation](http://www.damagehead.com/donate/)
 
 ### Issues
 
-Before reporting your issue please try updating Docker to the latest version and check if it resolves the issue. Refer to the Docker [installation guide](https://docs.docker.com/installation) for instructions.
+Before reporting your issue please try updating Docker to the latest version and check if it resolves the issue. Refer to the Docker [installation guide](https://docs.docker.com/get-docker/) for instructions.
 
-SELinux users should try disabling SELinux using the command `setenforce 0` to see if it resolves the issue.
-
-If the above recommendations do not help then [report your issue](../../issues/new) along with the following information:
+If the above documentation does not help then [report your issue](../../issues/new) along with the following information:
 
 - Output of the `docker version` and `docker info` commands
 - The `docker run` command or `docker-compose.yml` used to start the image. Mask out the sensitive bits.
-- Please state if you are using [Boot2Docker](http://www.boot2docker.io), [VirtualBox](https://www.virtualbox.org), etc.
+- Please state if you are using [Docker Desktop](https://www.docker.com/products/docker-desktop), [VirtualBox](https://www.virtualbox.org), etc.
 
 ## Getting started
 
@@ -49,7 +46,7 @@ If the above recommendations do not help then [report your issue](../../issues/n
 Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/allir/squid) and is the recommended method of installation.
 
 ```bash
-docker pull allir/squid:4.13
+docker pull allir/squid:latest
 ```
 
 Alternatively you can build the image yourself.
@@ -66,7 +63,7 @@ Start Squid using:
 docker run --name squid -d --restart=always \
   --publish 3128:3128 \
   --volume /srv/docker/squid/cache:/var/spool/squid \
-  allir/squid:4.13
+  allir/squid:latest
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -79,7 +76,7 @@ You can customize the launch command of the Squid server by specifying arguments
 docker run --name squid -it --rm \
   --publish 3128:3128 \
   --volume /srv/docker/squid/cache:/var/spool/squid \
-  allir/squid:4.13 -h
+  allir/squid:latest -h
 ```
 
 ### Persistence
@@ -104,7 +101,7 @@ docker run --name squid -d --restart=always \
   --publish 3128:3128 \
   --volume /path/to/squid.conf:/etc/squid/squid.conf \
   --volume /srv/docker/squid/cache:/var/spool/squid \
-  allir/squid:4.13
+  allir/squid:latest
 ```
 
 To reload the Squid configuration on a running instance you can send the `HUP` signal to the container.
@@ -162,14 +159,17 @@ docker logs squid
 
 ## Maintenance
 
+Using the `latest` tag is discouraged for any production or stable usage so using a specific version is recommended, for example `allir/squid:4.13`.
 ### Upgrading
+
+Example process for updating between versions. If you are running for example 4.13 and want to update to 4.14:
 
 To upgrade to newer releases:
 
   1. Download the updated Docker image:
 
   ```bash
-  docker pull allir/squid:4.13
+  docker pull allir/squid:4.14
   ```
 
   2. Stop the currently running image:
@@ -189,12 +189,12 @@ To upgrade to newer releases:
   ```bash
   docker run -name squid -d \
     [OPTIONS] \
-    allir/squid:4.13
+    allir/squid:4.14
   ```
 
 ### Shell Access
 
-For debugging and maintenance purposes you may want access the containers shell. If you are using Docker version `1.3.0` or higher you can access a running containers shell by starting `bash` using `docker exec`:
+For debugging and maintenance purposes you may want access the containers shell. You can access a running containers shell by starting `bash` using `docker exec`:
 
 ```bash
 docker exec -it squid bash
