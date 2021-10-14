@@ -113,6 +113,25 @@ To reload the Squid configuration on a running instance you can send the `HUP` s
 docker kill -s HUP squid
 ```
 
+**IMPORTANT NOTE:** Some required configuration options are stored at `/etc/squid/conf.d` and need to be included in any custom config. These are needed so that the image can be run as a non root user.
+
+To make sure these options are loaded add the following line to the configuration.
+
+```squid.conf
+include /etc/squid/conf.d/*
+```
+
+Alternatively you can also add the required configuration options in your own config.
+
+```squid.conf
+pid_filename /var/run/squid/squid.pid
+
+logfile_rotate 0
+cache_log stdio:/dev/null
+access_log stdio:/dev/stdout
+cache_store_log stdio:/dev/stdout
+```
+
 ### Usage
 
 Configure your web browser network/connection settings to use the proxy server which is available at `172.17.0.1:3128`
@@ -135,19 +154,11 @@ ENV http_proxy=http://172.17.0.1:3128 \
 
 ### Logs
 
-The default logs are tailed in a process in the container to output them to stdout.
+The default configuration will log to stdout so the logs can be viewed via `docker logs`.
 
 ```bash
 docker logs squid
 ```
-
-To access the Squid log files themselves, located at `/var/log/squid/`, you can use `docker exec`. For example, if you want to tail the access logs:
-
-```bash
-docker exec -it squid tail -f /var/log/squid/access.log
-```
-
-You can also mount a volume at `/var/log/squid/` so that the logs are directly accessible on the host.
 
 ## Maintenance
 

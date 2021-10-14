@@ -3,7 +3,6 @@ LABEL maintainer="Aðalsteinn Rúnarsson <alli@allir.io>"
 
 ENV SQUID_VERSION=4.13 \
     SQUID_CACHE_DIR=/var/spool/squid \
-    SQUID_LOG_DIR=/var/log/squid \
     SQUID_USER=proxy
 
 RUN apt-get update \
@@ -12,7 +11,13 @@ RUN apt-get update \
    ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
+RUN sed '/^#http_access allow localnet/s/^#//' -i /etc/squid/squid.conf \
+  && mkdir -p /var/run/squid \
+  && chown -R ${SQUID_USER}:${SQUID_USER} /var/run/squid
+
+COPY conf.d/ /etc/squid/conf.d/
 COPY entrypoint.sh /usr/sbin/entrypoint.sh
 
 EXPOSE 3128/tcp
+USER ${SQUID_USER}
 ENTRYPOINT ["/usr/sbin/entrypoint.sh"]
