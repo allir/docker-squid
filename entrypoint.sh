@@ -26,6 +26,11 @@ fi
 
 # default behaviour is to launch squid
 if [[ -z ${1} ]]; then
+  chroot --userspec=${SQUID_USER} / sleep 3 && tail -qn 0 -F /var/log/squid/{access,cache,store}.log 2>/dev/null &
+  if [[ ! -d ${SQUID_CACHE_DIR}/ssl_db ]]; then
+    /usr/lib/squid/security_file_certgen -c -s /var/spool/squid/ssl_db -M 4MB
+    chown -R ${SQUID_USER}:${SQUID_USER} ${SQUID_CACHE_DIR}/ssl_db
+  fi
   if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     echo "Initializing cache..."
     $(which squid) -N -f /etc/squid/squid.conf -z
