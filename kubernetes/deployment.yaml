@@ -14,18 +14,24 @@ spec:
       labels:
         app: squid
     spec:
+      securityContext:
+        runAsUser: 13
+        runAsGroup: 13
+        fsGroup: 13
       containers:
       - image: allir/squid
         imagePullPolicy: Always
         name: squid
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 10m
+            memory: 64Mi
           limits:
             cpu: 1000m
             memory: 512Mi
         volumeMounts:
+        - mountPath: /var/run/squid
+          name: run-volume
         - mountPath: /var/spool/squid
           name: cache-volume
         - mountPath: /etc/squid/certs
@@ -34,13 +40,15 @@ spec:
           name: config-volume
           subPath: squid.conf
       volumes:
+      - name: run-volume
+        emptyDir: {}
       - name: cache-volume
         emptyDir: {}
       - name: cert-volume
         secret:
-          defaultMode: 420
+          defaultMode: 0640
           secretName: squid-cert
       - name: config-volume
         configMap:
-          defaultMode: 320
+          defaultMode: 0644
           name: squid-config
