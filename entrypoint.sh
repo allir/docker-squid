@@ -14,7 +14,6 @@ fi
 if [[ -z ${1} ]]; then
   if [[ ! -d ${SQUID_CACHE_DIR}/ssl_db ]]; then
     /usr/lib/squid/security_file_certgen -c -s ${SQUID_CACHE_DIR}/ssl_db -M 4MB
-    chown -R ${SQUID_USER}:${SQUID_USER} ${SQUID_CACHE_DIR}/ssl_db
   fi
   if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     echo "Initializing cache..."
