@@ -21,9 +21,10 @@ clean: ## Clean workspace
 all: clean build release
 
 .PHONY: build release
+DOCKER_ARGS ?=
 build: ## Build docker image
 	@echo Building $(DOCKER_REPO)
-	@docker build . -t $(DOCKER_REPO)
+	@docker build . -t $(DOCKER_REPO) $(DOCKER_ARGS)
 	@echo Tagging $(DOCKER_REPO):$(VERSION)
 	@docker tag $(DOCKER_REPO) $(DOCKER_REPO):$(VERSION)
 	@echo Tagging $(DOCKER_REPO):$(SHORT_SHA)
@@ -31,7 +32,7 @@ build: ## Build docker image
 	@echo 
 
 release: build ## Push docker image to repository
-	@echo Pushing $(DOCKER_REPO) 
+	@echo Pushing $(DOCKER_REPO)
 	@docker push $(DOCKER_REPO)
 	@echo Pushing $(DOCKER_REPO):$(VERSION)
 	@docker push $(DOCKER_REPO):$(VERSION)
