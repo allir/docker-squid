@@ -2,8 +2,11 @@ FROM debian:11-slim
 LABEL maintainer="Aðalsteinn Rúnarsson <alli@allir.io>"
 
 ENV SQUID_VERSION=4.13 \
+    SQUID_CONFIG=/etc/squid/squid.conf \
     SQUID_CACHE_DIR=/var/spool/squid \
-    SQUID_USER=proxy
+    SQUID_USER=proxy \
+    SQUID_CERT_DB_GENERATE=true \
+    SQUID_CERT_DB_SIZE=4MB
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
