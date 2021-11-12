@@ -22,6 +22,15 @@ spec:
       - image: allir/squid
         imagePullPolicy: Always
         name: squid
+        env:
+        - name: SQUID_CONFIG
+          value: /etc/squid/squid.conf
+        - name: SQUID_CACHE_DIR
+          value: /var/spool/squid
+        - name: SQUID_CERT_DB_GENERATE
+          value: 'true'
+        - name: SQUID_CERT_DB_SIZE
+          value: 4MB
         resources:
           requests:
             cpu: 10m
