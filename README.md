@@ -159,18 +159,18 @@ docker logs squid
 
 ## Maintenance
 
-Using the `latest` tag is discouraged for any production or stable usage so using a specific version is recommended, for example `allir/squid:4.13`.
+Using the `latest` tag is discouraged for any production or stable usage so using a specific version is recommended, for example `allir/squid:5.7`.
 
 ### Upgrading
 
-Example process for updating between versions. If you are running for example 4.13 and want to update to 4.14:
+Example process for updating between versions. If you are running for example 5.6 and want to update to 5.7:
 
 To upgrade to newer releases:
 
   1. Download the updated Docker image:
 
       ```bash
-      docker pull allir/squid:4.14
+      docker pull allir/squid:5.7
       ```
 
   2. Stop the currently running image:
@@ -190,7 +190,7 @@ To upgrade to newer releases:
       ```bash
       docker run -name squid -d \
         [OPTIONS] \
-        allir/squid:4.14
+        allir/squid:5.7
       ```
 
 ### Shell Access
