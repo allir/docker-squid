@@ -1,7 +1,13 @@
-squid:
-  image: allir/squid:latest
-  ports:
-    - "3128:3128"
-  volumes:
-    - /srv/docker/squid/cache:/var/spool/squid
-  restart: always
+version: "3.8"
+services:
+  squid:
+    build: .
+
+    ports:
+      - "3128:3128"
+
+    #volumes:
+    #  - ./cache:/var/spool/squid
+    #  - ./conf.d:/etc/squid/conf.d
+
+    restart: always
