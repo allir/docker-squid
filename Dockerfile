@@ -1,11 +1,10 @@
 # syntax=docker/dockerfile:1
 
 ARG BASE_IMAGE=debian:12-slim
-ARG SQUID_VERSION=5.7
-
 FROM --platform=$TARGETPLATFORM $BASE_IMAGE
 LABEL maintainer="Aðalsteinn Rúnarsson <alli@allir.io>"
 
+ARG SQUID_VERSION=5.7
 ENV SQUID_VERSION=$SQUID_VERSION \
     SQUID_CONFIG=/etc/squid/squid.conf \
     SQUID_CACHE_DIR=/var/spool/squid \
@@ -15,7 +14,7 @@ ENV SQUID_VERSION=$SQUID_VERSION \
 
 RUN apt-get -q update \
  && DEBIAN_FRONTEND=noninteractive apt-get -q install --no-install-recommends -y \
-   squid-openssl=$SQUID_VERSION* \
+   squid-openssl=${SQUID_VERSION}* \
    ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
